@@ -160,7 +160,7 @@ class SettingsWindow(tk.Toplevel):
         self.order_label = ttk.Label(fmt_grid, style="Subtitle.TLabel")
         self.order_label.grid(row=0, column=0, sticky="w", pady=4)
         self.order_combo = ttk.Combobox(
-            fmt_grid, state="readonly", width=22, textvariable=self.order_var,
+            fmt_grid, state="readonly", width=22
         )
         self.order_combo.grid(row=0, column=1, sticky="w", padx=(10, 0), pady=4)
         self.order_combo.bind("<<ComboboxSelected>>", lambda e: self._on_format_changed())
@@ -168,7 +168,7 @@ class SettingsWindow(tk.Toplevel):
         self.sep_label = ttk.Label(fmt_grid, style="Subtitle.TLabel")
         self.sep_label.grid(row=1, column=0, sticky="w", pady=4)
         self.sep_combo = ttk.Combobox(
-            fmt_grid, state="readonly", width=22, textvariable=self.separator_var,
+            fmt_grid, state="readonly", width=22
         )
         self.sep_combo.grid(row=1, column=1, sticky="w", padx=(10, 0), pady=4)
         self.sep_combo.bind("<<ComboboxSelected>>", lambda e: self._on_format_changed())
