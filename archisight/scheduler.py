@@ -60,15 +60,19 @@ class Scheduler:
 
         now = datetime.now()
         today_iso = now.date().isoformat()
+
+        # Если сегодня уже запускали (по конфигу ИЛИ по памяти), выходим
         if config.last_run_date == today_iso or self._last_triggered_date == today_iso:
             return
 
+        # Приводим время конфига к формату "HH:MM"
         try:
             parts = config.run_time.split(":")
             target_time = f"{int(parts[0]):02d}:{int(parts[1]):02d}"
         except (ValueError, IndexError):
             target_time = config.run_time
 
+        # Если время совпало — запускаем
         if now.strftime("%H:%M") == target_time:
             self._last_triggered_date = today_iso
             self.run_cleanup_callback()
