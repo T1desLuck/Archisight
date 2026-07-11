@@ -31,6 +31,7 @@ class Scheduler:
         self.check_interval = check_interval
         self._stop_event = threading.Event()
         self._thread: threading.Thread | None = None
+        self._last_triggered_date: str | None = None
 
     def start(self):
         if self._thread and self._thread.is_alive():
@@ -54,17 +55,20 @@ class Scheduler:
 
     def _tick(self):
         config = self.get_config()
-
-        if not config.autostart_enabled:
-            return
         if not config.run_time:
             return
 
         now = datetime.now()
         today_iso = now.date().isoformat()
+        if config.last_run_date == today_iso or self._last_triggered_date == today_iso:
+            return
 
-        if config.last_run_date == today_iso:
-            return  # сегодня уже выполняли
+        try:
+            parts = config.run_time.split(":")
+            target_time = f"{int(parts[0]):02d}:{int(parts[1]):02d}"
+        except (ValueError, IndexError):
+            target_time = config.run_time
 
-        if now.strftime("%H:%M") == config.run_time:
+        if now.strftime("%H:%M") == target_time:
+            self._last_triggered_date = today_iso
             self.run_cleanup_callback()
