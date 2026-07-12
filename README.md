@@ -25,8 +25,8 @@
 
 1. Склонируйте репозиторий:
    ```bash
-   git clone [https://github.com/your-username/archisight.git](https://github.com/your-username/archisight.git)
-   cd archisight
+   git clone [https://github.com/T1desLuck/Archisight.git](https://github.com/T1desLuck/Archisight.git)
+   cd Archisight
 
 ```
 
