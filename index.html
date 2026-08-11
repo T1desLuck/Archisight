@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Archisight — автоматическая очистка папки-архива по датам для Windows</title>
+<meta name="description" content="Archisight — лёгкая программа для Windows, которая сама находит подпапки с датами в архиве и удаляет всё старше заданного срока. Без сети, без служб, только нужные настройки: сколько дней хранить, формат даты, автозапуск и работа из трея." />
+<meta name="keywords" content="archisight, очистка архива, удаление старых папок, автоочистка папок windows, автозапуск, трей, python tkinter, автоматическая очистка диска" />
+<link rel="canonical" href="https://t1desluck.github.io/Archisight/" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Archisight" />
+<meta property="og:title" content="Archisight — архив под присмотром" />
+<meta property="og:description" content="Программа для Windows, которая автоматически удаляет устаревшие папки в архиве по дате в имени, оставляя только последние N дней." />
+<meta property="og:url" content="https://t1desluck.github.io/Archisight/" />
+<meta property="og:image" content="https://t1desluck.github.io/Archisight/assets/screenshots/shot-main.png" />
+<meta property="og:locale" content="ru_RU" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Archisight — архив под присмотром" />
+<meta name="twitter:description" content="Автоматическая очистка папки-архива по датам для Windows: сканирует, находит старое, удаляет — без вашего участия." />
+<meta name="twitter:image" content="https://t1desluck.github.io/Archisight/assets/screenshots/shot-main.png" />
+
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Archisight",
+  "operatingSystem": "Windows",
+  "applicationCategory": "UtilitiesApplication",
+  "description": "Лёгкая утилита для Windows, которая мониторит папку-архив и автоматически удаляет подпапки с устаревшими датами в имени, оставляя данные только за последние N дней.",
+  "url": "https://t1desluck.github.io/Archisight/",
+  "downloadUrl": "https://github.com/T1desLuck/Archisight/raw/main/Archisight_setup.exe",
+  "softwareVersion": "1.0",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Барков Н.С."
+  }
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 9C4 7.34315 5.34315 6 7 6H12.5L15 9H25C26.6569 9 28 10.3431 28 12V23C28 24.6569 26.6569 26 25 26H7C5.34315 26 4 24.6569 4 23V9Z" fill="#C98A2E"/>
+        <path d="M4 13C4 11.3431 5.34315 10 7 10H25C26.6569 10 28 11.3431 28 13V23C28 24.6569 26.6569 26 25 26H7C5.34315 26 4 24.6569 4 23V13Z" fill="#1D222B"/>
+      </svg>
+      Archisight
+    </a>
+    <button class="nav-toggle" aria-label="Открыть меню" aria-expanded="false" id="nav-toggle">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 4H16M2 9H16M2 14H16" stroke="#1D222B" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <nav class="main-nav" id="main-nav">
+      <a href="#how">Как это работает</a>
+      <a href="#features">Возможности</a>
+      <a href="#gallery">Скриншоты</a>
+      <a href="docs.html">Документация</a>
+      <a class="nav-cta" href="https://github.com/T1desLuck/Archisight/raw/main/Archisight_setup.exe">Скачать</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Windows · трей · без служб и фоновых процессов сети</span>
+        <h1>Ваш архив <em>сам</em> знает, что пора выбросить.</h1>
+        <p class="hero-lede">Archisight следит за одной папкой — вашим архивом рабочих дней — и каждый день без напоминаний удаляет то, что вышло за срок хранения. Вы просто продолжаете переносить вчерашнюю папку в архив, как обычно.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://github.com/T1desLuck/Archisight/raw/main/Archisight_setup.exe">
+            Скачать Archisight_setup.exe
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2V11M8 11L4.5 7.5M8 11L11.5 7.5M3 14H13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="https://github.com/T1desLuck/Archisight">Исходный код на GitHub</a>
+        </div>
+        <ul class="hero-meta">
+          <li>Установка без прав администратора</li>
+          <li>Хранение от 3 до 730 дней</li>
+          <li>Открытый код на Python</li>
+        </ul>
+      </div>
+
+      <div class="shelf-card reveal">
+        <div class="shelf-card-top">
+          <div class="dot-row"><span></span><span></span><span></span></div>
+          <span class="shelf-label">D:/Отработка</span>
+        </div>
+        <svg id="folder-shelf" viewBox="0 0 560 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Схема: старые папки архива слева удаляются, папки в пределах срока хранения справа остаются">
+          <line x1="196" y1="20" x2="196" y2="196" stroke="#f2c987" stroke-width="1.4" stroke-dasharray="4 5" />
+          <g font-family="JetBrains Mono, monospace" font-size="10">
+            <!-- удалённые -->
+            <g opacity="0.9">
+              <rect x="18"  y="150" width="34" height="30" rx="4" fill="#2a3140"/>
+              <rect x="60"  y="140" width="34" height="40" rx="4" fill="#2a3140"/>
+              <rect x="102" y="132" width="34" height="48" rx="4" fill="#2a3140"/>
+              <rect x="144" y="124" width="34" height="56" rx="4" fill="#2a3140"/>
+            </g>
+            <text x="35"  y="196" fill="#5b6472" text-anchor="middle">9.3</text>
+            <text x="77"  y="196" fill="#5b6472" text-anchor="middle">2.5</text>
+            <text x="119" y="196" fill="#5b6472" text-anchor="middle">14.6</text>
+            <text x="161" y="196" fill="#5b6472" text-anchor="middle">30.6</text>
+
+            <!-- сохранённые -->
+            <g>
+              <rect x="212" y="118" width="34" height="62" rx="4" fill="#c98a2e"/>
+              <rect x="254" y="106" width="34" height="74" rx="4" fill="#c98a2e"/>
+              <rect x="296" y="96"  width="34" height="84" rx="4" fill="#c98a2e"/>
+              <rect x="338" y="88"  width="34" height="92" rx="4" fill="#c98a2e"/>
+              <rect x="380" y="80"  width="34" height="100" rx="4" fill="#e8a94f"/>
+              <rect x="422" y="72"  width="34" height="108" rx="4" fill="#e8a94f"/>
+              <rect x="464" y="64"  width="34" height="116" rx="4" fill="#f2c987"/>
+              <rect x="506" y="56"  width="34" height="124" rx="4" fill="#f2c987"/>
+            </g>
+            <text x="229" y="196" fill="#e8dcc2" text-anchor="middle">7.7</text>
+            <text x="271" y="196" fill="#e8dcc2" text-anchor="middle">14.7</text>
+            <text x="313" y="196" fill="#e8dcc2" text-anchor="middle">21.7</text>
+            <text x="355" y="196" fill="#e8dcc2" text-anchor="middle">28.7</text>
+            <text x="397" y="196" fill="#e8dcc2" text-anchor="middle">4.8</text>
+            <text x="439" y="196" fill="#e8dcc2" text-anchor="middle">6.8</text>
+            <text x="481" y="196" fill="#e8dcc2" text-anchor="middle">8.8</text>
+            <text x="523" y="196" fill="#f2c987" text-anchor="middle" font-weight="600">11.8</text>
+          </g>
+          <line x1="10" y1="200" x2="550" y2="200" stroke="#3a4150" stroke-width="1"/>
+          <text x="196" y="16" fill="#f2c987" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600">граница хранения</text>
+        </svg>
+        <div class="shelf-caption">
+          <span>Старше границы — <strong>удалено</strong></span>
+          <span>В пределах срока — <strong>115 дней</strong> сохранено</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STORY / PROBLEM -->
+  <section class="story" id="story">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Знакомая рутина</span>
+        <h2>Каждый рабочий день — новая папка. Каждый месяц — забитый диск.</h2>
+        <p>Так обычно выглядит архив, который никто не разбирал руками: пришли на работу — создали папку с сегодняшней датой, вчерашнюю — перенесли в архив. Через полгода там уже сотни подпапок, и разобраться, что пора удалить, а что ещё рано — отдельная задача, до которой не доходят руки.</p>
+      </div>
+      <div class="story-grid">
+        <div class="story-card reveal">
+          <span class="story-step">Было</span>
+          <h3>Ручной разбор дат</h3>
+          <p>Раз в квартал — открыть архив, вглядеться в имена папок, прикинуть на глаз, что старше нужного срока, и удалить руками, рискуя зацепить не то.</p>
+        </div>
+        <div class="story-card reveal">
+          <span class="story-step">Стало</span>
+          <h3>Archisight в трее</h3>
+          <p>Программа раз в день сама сверяет даты в именах папок с текущей и убирает всё, что вышло за срок хранения. Вы просто продолжаете работать как обычно.</p>
+        </div>
+        <div class="story-card reveal">
+          <span class="story-step">Итог</span>
+          <h3>Диск не пухнет</h3>
+          <p>Свежие папки — всегда под рукой, старые — не занимают место. Посторонние файлы и папки с другими именами программа не трогает никогда.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS / ALGORITHM -->
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Алгоритм очистки</span>
+        <h2>Семь шагов, которые программа проходит при каждой проверке</h2>
+        <p>Логика построена так, чтобы удалялись только целевые архивные папки, а всё остальное оставалось нетронутым.</p>
+      </div>
+      <ol class="algo-list">
+        <li class="algo-item reveal">
+          <span class="algo-num">01</span>
+          <div><h3>Только первый уровень</h3><p>Проверяются исключительно подпапки внутри выбранного пути к архиву. Внутрь вложенных директорий программа не заходит.</p></div>
+        </li>
+        <li class="algo-item reveal">
+          <span class="algo-num">02</span>
+          <div><h3>Строгое совпадение имени</h3><p>Учитываются только папки, чьё имя целиком совпадает с заданным форматом даты — порядок день/месяц/год, разделитель, короткий или полный год. Короткий год трактуется как текущее столетие.</p></div>
+        </li>
+        <li class="algo-item reveal">
+          <span class="algo-num">03</span>
+          <div><h3>Поиск опорной точки</h3><p>Среди распознанных дат находится самая свежая, которая не превышает текущую системную дату.</p></div>
+        </li>
+        <li class="algo-item reveal">
+          <span class="algo-num">04</span>
+          <div><h3>Граница хранения</h3><p>От опорной точки отсчитывается назад заданное число календарных дней — это и есть срок жизни архива.</p></div>
+        </li>
+        <li class="algo-item reveal">
+          <span class="algo-num">05</span>
+          <div><h3>Удаление</h3><p>Папки в пределах границы сохраняются. Всё, что старше — удаляется безвозвратно вместе с содержимым.</p></div>
+        </li>
+        <li class="algo-item reveal">
+          <span class="algo-num">06</span>
+          <div><h3>Пропуски дат не мешают</h3><p>Если за какие-то дни папок нет — например, из-за выходных — расчёт границы это не нарушает.</p></div>
+        </li>
+        <li class="algo-item reveal">
+          <span class="algo-num">07</span>
+          <div><h3>Всё постороннее — не трогается</h3><p>Файлы и папки, не подходящие под формат даты, игнорируются и никогда не удаляются. Их полный список можно посмотреть в сводке перед запуском.</p></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="story" id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Возможности</span>
+        <h2>Тонкая настройка при полной прозрачности</h2>
+        <p>Каждое действие, которое может изменить систему или удалить файлы, требует явного подтверждения.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-cell reveal">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z" stroke="currentColor" stroke-width="1.5"/></svg>
+          <h3>Гибкий формат даты</h3>
+          <p>Порядок день/месяц/год, разделитель (точка, дефис, слэш) и длина года — под тот шаблон, которым вы называете папки.</p>
+        </div>
+        <div class="feature-cell reveal">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/></svg>
+          <h3>Ежедневная автопроверка</h3>
+          <p>Своё время суток для автоматического запуска. Если время не задано — автоматика не сработает, даже при включённом автозапуске.</p>
+        </div>
+        <div class="feature-cell reveal">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h16M4 12l4-4M4 12l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>Автозапуск без прав администратора</h3>
+          <p>Через пользовательский ключ реестра. Статус «Активно/Неактивно» на главном экране всегда отражает реальное состояние системы, а не сохранённую галочку.</p>
+        </div>
+        <div class="feature-cell reveal">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v3m0 12v3m9-9h-3M6 12H3m14.5-6.5-2.1 2.1M8.6 15.4l-2.1 2.1m0-11 2.1 2.1m8.8 8.8-2.1-2.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <h3>Незаметная работа в трее</h3>
+          <p>При закрытии окна крестиком (с включённым автозапуском) программа уходит в трей. При разворачивании окна значок скрывается, чтобы не дублировать активное приложение.</p>
+        </div>
+        <div class="feature-cell reveal">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12l2 2 4-4M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="1.5"/></svg>
+          <h3>Безопасные «Сбросить» и «Сохранить»</h3>
+          <p>«Сбросить» возвращает значения по умолчанию (90 дней, автозапуск выключен), но ничего не меняет в системе, пока вы не нажмёте «Сохранить».</p>
+        </div>
+        <div class="feature-cell reveal">
+          <svg class="feature-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <h3>«Применить сейчас»</h3>
+          <p>Ручной и немедленный прогон очистки с настройками, введёнными прямо сейчас в окне, даже если они ещё не сохранены. Требует подтверждения — удаление необратимо.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Интерфейс</span>
+        <h2>Три окна и один значок в трее — больше в программе ничего нет</h2>
+        <p>Главный экран для ознакомления с состоянием архива, окно настроек для тонкой конфигурации и «Инфо» с кратким описанием принципа работы.</p>
+      </div>
+      <div class="gallery-grid">
+        <figure class="shot shot-tall reveal">
+          <img src="assets/screenshots/shot-main.png" alt="Главное окно Archisight с датой, числом найденных папок, сроком хранения и статусом автозапуска" loading="lazy" width="798" height="630" />
+          <figcaption>Главный экран — сводка по архиву за один взгляд</figcaption>
+        </figure>
+        <figure class="shot reveal">
+          <img src="assets/screenshots/shot-settings.png" alt="Окно настроек Archisight: количество дней хранения, путь к архиву, время автопроверки и формат названий папок" loading="lazy" width="583" height="776" />
+          <figcaption>Настройки — язык, срок хранения, формат дат</figcaption>
+        </figure>
+        <figure class="shot reveal">
+          <img src="assets/screenshots/shot-tray.png" alt="Контекстное меню Archisight в системном трее Windows: Открыть, Настройки, Инфо, Выход" loading="lazy" width="167" height="126" />
+          <figcaption>Меню в системном трее</figcaption>
+        </figure>
+        <figure class="shot reveal">
+          <img src="assets/screenshots/shot-about-1.png" alt="Окно «О программе» с описанием принципа работы Archisight" loading="lazy" width="549" height="573" />
+          <figcaption>Окно «Инфо» — как это работает своими словами</figcaption>
+        </figure>
+        <figure class="shot reveal">
+          <img src="assets/screenshots/shot-about-2.png" alt="Продолжение окна «О программе» Archisight с контактами автора" loading="lazy" width="543" height="574" />
+          <figcaption>Окно «Инфо» — продолжение и контакты</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="download">
+    <div class="wrap">
+      <div class="cta-band reveal">
+        <div>
+          <h2>Поставьте архив на автопилот сегодня</h2>
+          <p>Установщик — один .exe файл. Программа не требует прав администратора и не обращается в сеть.</p>
+        </div>
+        <div>
+          <a class="btn btn-primary" href="https://github.com/T1desLuck/Archisight/raw/main/Archisight_setup.exe">Скачать Archisight_setup.exe</a>
+          <span class="btn-sub">Windows 10/11 · без установки Python</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <svg class="brand-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 9C4 7.34315 5.34315 6 7 6H12.5L15 9H25C26.6569 9 28 10.3431 28 12V23C28 24.6569 26.6569 26 25 26H7C5.34315 26 4 24.6569 4 23V9Z" fill="#C98A2E"/>
+          <path d="M4 13C4 11.3431 5.34315 10 7 10H25C26.6569 10 28 11.3431 28 13V23C28 24.6569 26.6569 26 25 26H7C5.34315 26 4 24.6569 4 23V13Z" fill="#1D222B"/>
+        </svg>
+        Archisight
+      </div>
+      <nav class="footer-links">
+        <a href="index.html#how">Как это работает</a>
+        <a href="index.html#features">Возможности</a>
+        <a href="docs.html">Документация</a>
+        <a href="https://github.com/T1desLuck/Archisight">GitHub</a>
+        <a href="mailto:tidesluck@icloud.com">tidesluck@icloud.com</a>
+      </nav>
+    </div>
+    <div class="footer-meta">
+      <span>© 2026 Барков Н.С.</span>
+      <span>Archisight — Archive + Sight</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
